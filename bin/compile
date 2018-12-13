@@ -12,6 +12,23 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
 
+function error() {
+  echo " !     $*" >&2
+  exit 1
+}
+
+function topic() {
+  echo "-----> $*"
+}
+
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
+}
+
 PACKAGES="http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb http://mirrors.kernel.org/ubuntu/pool/main/j/json-c/libjson-c2_0.11-4ubuntu2_amd64.deb http://mirrors.kernel.org/ubuntu/pool/main/q/qpdf/libqpdf17_6.0.0-2_amd64.deb https://www.kryptokoder.com/mypdfsigner_2.7.5-1_amd64.deb https://www.kryptokoder.com/mypdfsigner-ruby_2.7.5-1_amd64.deb"
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
