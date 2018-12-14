@@ -29,7 +29,7 @@ function indent() {
   esac
 }
 
-PACKAGES="http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb http://mirrors.kernel.org/ubuntu/pool/main/j/json-c/libjson-c2_0.11-4ubuntu2_amd64.deb http://mirrors.kernel.org/ubuntu/pool/main/q/qpdf/libqpdf17_6.0.0-2_amd64.deb https://www.kryptokoder.com/mypdfsigner_2.7.5-1_amd64.deb https://www.kryptokoder.com/mypdfsigner-ruby_2.7.5-1_amd64.deb"
+PACKAGES=(http://mirrors.kernel.org/ubuntu/pool/main/libp/libpng/libpng12-0_1.2.54-1ubuntu1_amd64.deb http://mirrors.kernel.org/ubuntu/pool/main/j/json-c/libjson-c2_0.11-4ubuntu2_amd64.deb http://mirrors.kernel.org/ubuntu/pool/main/q/qpdf/libqpdf17_6.0.0-2_amd64.deb https://www.kryptokoder.com/mypdfsigner_2.7.5-1_amd64.deb https://www.kryptokoder.com/mypdfsigner-ruby_2.7.5-1_amd64.deb)
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
@@ -53,9 +53,9 @@ esac
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
-for PACKAGE in $PACKAGES; do
+for i in "${!PACKAGES[@]}"; do
   if [[ $PACKAGE == *deb ]]; then
-    PACKAGE_NAME=$(basename $PACKAGE .deb)
+    PACKAGE_NAME="${i}_$(basename $PACKAGE .deb)"
     PACKAGE_FILE=$APT_CACHE_DIR/archives/$PACKAGE_NAME.deb
 
     topic "Fetching $PACKAGE"
